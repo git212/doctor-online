@@ -1,4 +1,4 @@
-pipeline {
+pipeline{
     agent any
     stages{
         stage("Maven Build"){
@@ -6,14 +6,14 @@ pipeline {
                 sh 'mvn package'
             }
         }
-        stage("Deploy Dev"){
+        stage("Dev Deploy"){
             steps{
-               sshagent(['tomcat-dev']) {
-                  // Copy war file to tomcat dev server
-                  sh "scp -o StrictHostKeyChecking=no target/doctor-online.war ec2-user@172.31.8.95:/opt/tomcat9/webapps/"
-                  // Restart tomcat server
-                  sh "ssh ec2-user@172.31.8.95 /opt/tomcat9/bin/shutdown.sh"
-                  sh "ssh ec2-user@172.31.8.95 /opt/tomcat9/bin/startup.sh"
+                sshagent(['tomcat-dev']) {
+                    // Copy war file to tomcat dev server
+                    sh "scp -o StrictHostKeyChecking=no target/doctor-online.war ec2-user@172.31.8.115:/opt/tomcat9/webapps"
+                    // Restart tomcat server
+                    sh "ssh ec2-user@172.31.8.115 /opt/tomcat9/bin/shutdown.sh"
+                    sh "ssh ec2-user@172.31.8.115 /opt/tomcat9/bin/startup.sh"
                 }
             }
         }
